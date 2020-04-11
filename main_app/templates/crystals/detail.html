@@ -10,8 +10,6 @@
         <span class="card-title">{{ crystal.name }}</span>
          <p>Name: {{ crystal.name }}</p>
          <p>Description: {{ crystal.description }}</p>
-            <p>Properties: {{ crystal.properties }}</p>
-            <p> Meaning: {{ crystal.meaning }} </p>
             <p> Color: {{crystal.color }}</p>
             </div>
             <div class="card-action">
@@ -21,12 +19,17 @@
         </div>
     </div>
   <div class="col s6">
+    <form action="{% url 'add_cleansing' crystal.id %}" method= "post">
+        {% csrf_token %}
+        {{ cleansing_form.as_p }}
+        <input type="submit" class="btn" value="Add Cleansing">
+    </form>
     <table class="striped">
       <thead>
         <tr><th>Date</th><th>Cleanse</th></tr>
       </thead>
       <tbody>
-        {% for feeding in crystal.cleansing_set.all %}
+        {% for cleansing in crystal.cleansing_set.all %}
           <tr>
             <td>{{cleansing.date}}</td>
             <td>{{cleansing.get_cleanse_display}}</td>
@@ -36,4 +39,58 @@
     </table>
   </div>
 </div>
+<hr>
+<div class="row">
+ <div class="col s6">
+  <h3>{{ crystal.name }}'s Energys</h3>
+  {% if crystal.energys.count %}
+   {% for energy in crystal.energys.all %}
+    <div class="card">
+     <div class="card-content">
+      <span class="card-title">
+        Harnesss<span style="color: blueviolet"></span> {{ energy.wellness }} and means {{ energy.meaning}}
+      </span>
+    </div>
+ </div>
+ {% endfor %}
+ {% else %}
+ <h5>No Energys :(</h5>{% endif %}
+</div>
+<!-- Available toys will come after this line -->
+</div>
+<div class="col s6">
+    <h3>Energys </h3>
+    {% if energys.count %}
+      {% for energy in energys.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              <span>{{ energy.meaning }}</span>  and <br>{{ energy.wellness }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'assoc_energy' crystal.id energy.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{Crystal.name}} No More Energys to add, create more?</h5>
+      <a href="/energys/create"><button type="submit" class="btn">Add More Energy</button></a>
+    {% endif %}
+  </div>
+<script>
+    let dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+  });
+    let selectEL = document.getElementById('id_cleanse');
+    M.FormSelect.init(selectEL);
+
+  </script>  
 {% endblock %}

@@ -3,18 +3,26 @@ from django.urls import reverse
 
 # Create your models here.
 CLEANSE =(
-    ('H','HELD'),
     ('S', 'SUNLIGHT'),
-    ('D', 'MOONLIGHT')
+    ('D', 'MOONLIGHT'),
+    ('H','HELD')
 )
+
+class Energy(models.Model):
+    wellness = models.CharField(max_length=50)
+    meaning = models.CharField(max_length=50)
+    
+
+    def __str__(self):
+        return f"harnesses {self.wellness}properties, and means {self.meaning}"
 
 class Crystal(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
-    properties = models.TextField(max_length=250)
-    meaning = models.TextField(max_length=250)
     color = models.CharField(max_length=100)
-    
+    energys = models.ManyToManyField(Energy)
+   
+ 
     def __str__(self):
         return self.name
 
@@ -33,3 +41,6 @@ class Cleansing(models.Model):
 
     def __str__(self):
         return f"{self.get_cleanse_display()} on {self.date}"
+
+    class Meta:
+        ordering = ['-date']    

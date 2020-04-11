@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if object_list.count == 0 %}
+    <h3 class="red-text">There are no Energy's entered</h3>
+    <a href="{% url 'energys_create' %}">Add an Energy</a>
+{% else %}
+    {% for energy in object_list %}
+    <div class="card">
+        <a href="{% url 'energys_detail' energy.id %}">
+            <div class="card-content">
+                <span class="card-title">It means <span>{{energy.meaning}}</span>  and harnesses<br>{{ energy.wellness }}</span>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
