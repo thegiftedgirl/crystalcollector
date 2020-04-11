@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
+
 from .models import Crystal
 
 
@@ -18,6 +20,10 @@ def crystals_detail(request, crystal_id):
     return render(request, 'crystals/detail.html', {'crystal': crystal })
 
 
+class CrystalCreate(CreateView):
+    model = Crystal
+    fields = '__all__'
+   
 
 
 

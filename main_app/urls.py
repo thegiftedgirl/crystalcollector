@@ -7,5 +7,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('crystals/', views.crystals_index, name='index'),
     path('crystals/<int:crystal_id>/', views.crystals_detail, name='detail'),
+    path('crystals/create/', views.CrystalCreate.as_view(), name='crystals_create'),
     
 ]
