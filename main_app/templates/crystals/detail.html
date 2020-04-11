@@ -12,6 +12,10 @@
         <p> Meaning: {{ crystal.meaning }} </p>
         <p> Color: {{crystal.color }}</p>
     </div>
+    <div class="card-action">
+        <a href="{% url 'crystals_update' crystal.id %}">Edit</a>
+        <a href="{% url 'crystals_delete' crystal.id %}">Delete</a>
+    </div>
 </div>
 
 {% endblock %}
